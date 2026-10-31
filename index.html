@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeAlpha URL Shortener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+
+        <p class="subtitle">
+            Make your long links short and simple!
+        </p>
+
+        <form method="POST">
+            <input
+                type="url"
+                name="url"
+                placeholder="Paste your long URL here..."
+                required
+            >
+
+            <button type="submit">Shorten URL</button>
+        </form>
+
+        {% if short_url %}
+        <div class="result">
+            <h3>Your Short URL is Ready!</h3>
+
+            <a href="{{ short_url }}" target="_blank">
+                {{ short_url }}
+            </a>
+
+            <button type="button"
+                onclick="navigator.clipboard.writeText('{{ short_url }}')">
+                Copy Link
+            </button>
+        </div>
+        {% endif %}
+
+        <footer>
+            <p>Developed by CodeAlpha Intern</p>
+        </footer>
+    </div>
+    <div class="history">
+    <h2>Recently Shortened URLs</h2>
+
+    {% for url in urls %}
+    <div class="url-item">
+        <p><strong>Original URL:</strong> {{ url[0] }}</p>
+
+        <p>
+            <strong>Short URL:</strong>
+            <a href="{{ request.host_url }}{{ url[1] }}">
+                {{ request.host_url }}{{ url[1] }}
+            </a>
+        </p>
+    </div>
+    {% else %}
+    <p>No URLs shortened yet.</p>
+    {% endfor %}
+</div>
+</body>
+</html>
